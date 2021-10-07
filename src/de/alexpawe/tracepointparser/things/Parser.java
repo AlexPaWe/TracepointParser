@@ -13,14 +13,16 @@ public class Parser {
 		
 		Iterator<String> iterator = fileContents.iterator();
 		while (iterator.hasNext()) {
-			do {} while (!iterator.next().matches("[-]*"));
-			iterator.next();
+			while (!iterator.next().equals("---------  ---------------------  ---------------------------------------------"));
+			System.out.println("Separator line found");
+			System.out.println(iterator.next());
 			
 			String line = iterator.next();
 			String[] splitLine = line.split(" ");
-			Tracepoint tracepoint = new Tracepoint(splitLine[1], Integer.parseInt(splitLine[0]), splitLine[2]);
+			System.out.println(splitLine);
+			//Tracepoint tracepoint = new Tracepoint(splitLine[1], Integer.parseInt(splitLine[0]), splitLine[2]);
 			
-			tracepoints.add(tracepoint);
+			//tracepoints.add(tracepoint);
 		}
 		
 		return tracepoints;

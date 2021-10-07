@@ -2,6 +2,7 @@ package de.alexpawe.tracepointparser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,31 +21,38 @@ public class Main {
 	public static void main(String[] args) {
 		
 		// TODO: Import tracepoints from traces.dat file(s)
-		File resultsDirectory = new File("/results");
+		File resultsDirectory = Paths.get("results").toFile();
 		File[] resultsFolders = resultsDirectory.listFiles();
 		for (File taskFolder : resultsFolders) {
+			System.out.println(taskFolder.getName());
 			File[] taskFiles = taskFolder.listFiles();
-			for (File taskFile : taskFiles) {
-				if (taskFile.getName() == TRACES_LIST_FILE_NAME) {
-					try {
-						Scanner fileScanner = new Scanner(taskFile);
-						List contents = new LinkedList();
-						while(fileScanner.hasNextLine()) {
-							contents.add(fileScanner.nextLine());
+			if (taskFiles != null) {
+				for (File taskFile : taskFiles) {
+					System.out.println(taskFile.getName());
+					if (taskFile.getName().equals(TRACES_LIST_FILE_NAME)) {
+						System.out.println("Traces list file found.");
+						try {
+							Scanner fileScanner = new Scanner(taskFile);
+							List contents = new LinkedList();
+							while(fileScanner.hasNextLine()) {
+								contents.add(fileScanner.nextLine());
+							}
+						
+							Parser parser = new Parser();
+							List<Tracepoint> tracepoints = parser.parse(contents);
+						
+							int iterationNr = 1; // TODO: Nake this non static
+							Task task = new Task(taskFolder.getName(), iterationNr, tracepoints);
+						
+							tasks = new LinkedList<Task>();
+							tasks.add(task);
+						
+							System.out.println("Nr. of \"trace_yield\"s: " + task.getNumberOf("trace_yield"));
+						
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
-						
-						Parser parser = new Parser();
-						List<Tracepoint> tracepoints = parser.parse(contents);
-						
-						int iterationNr = 1; // TODO: Nake this non static
-						Task task = new Task(taskFolder.getName(), iterationNr, tracepoints);
-						
-						tasks = new LinkedList<Task>();
-						tasks.add(task);
-						
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
 				}
 			}

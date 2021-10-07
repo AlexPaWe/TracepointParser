@@ -15,6 +15,16 @@ public class Task {
 		this.tracepoints = tracepoints;
 	}
 	
+	public int getNumberOf(String trcpName) {
+		int counter = 0;
+		for (Tracepoint tracepoint : tracepoints) {
+			if (tracepoint.getName() == trcpName)
+					counter++;
+		}
+		
+		return counter;
+	}
+	
 	public List<Tracepoint> getTracepoints() {
 		return tracepoints;
 	}
