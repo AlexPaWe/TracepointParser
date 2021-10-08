@@ -18,8 +18,9 @@ public class Task {
 	public int getNumberOf(String trcpName) {
 		int counter = 0;
 		for (Tracepoint tracepoint : tracepoints) {
-			if (tracepoint.getName() == trcpName)
-					counter++;
+			if (tracepoint.getName().equals(trcpName)) {
+					counter += 1;
+			}
 		}
 		
 		return counter;

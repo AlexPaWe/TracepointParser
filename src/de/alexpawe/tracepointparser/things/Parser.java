@@ -12,19 +12,42 @@ public class Parser {
 		List<Tracepoint> tracepoints = new LinkedList<Tracepoint>();
 		
 		Iterator<String> iterator = fileContents.iterator();
-		while (iterator.hasNext()) {
-			while (!iterator.next().equals("---------  ---------------------  ---------------------------------------------"));
-			System.out.println("Separator line found");
-			System.out.println(iterator.next());
-			
 			String line = iterator.next();
-			String[] splitLine = line.split(" ");
-			System.out.println(splitLine);
-			//Tracepoint tracepoint = new Tracepoint(splitLine[1], Integer.parseInt(splitLine[0]), splitLine[2]);
 			
-			//tracepoints.add(tracepoint);
+			// Search for the separator line where the table of tracepoints with timestamps starts.
+			while (!line.matches("[-]+[\s]+[-]+[\s]+[-]+")) {
+				line = iterator.next();
+			}
+			
+		while (iterator.hasNext()) {
+			line = iterator.next();
+			
+			Tracepoint tracepoint = parseLine(line);
+			
+			tracepoints.add(tracepoint);
 		}
 		
 		return tracepoints;
+	}
+	
+	private Tracepoint parseLine(String line) {
+		String[] splitLine = line.split("\s[\s]+");
+		if (splitLine[0].matches("[0-9]+")) {
+			int timeStamp = Integer.parseInt(splitLine[0]);
+			String name = splitLine[1];
+			String msg = (splitLine.length == 3)? splitLine[2] : null;
+			
+			//System.out.println(name + " at " + timeStamp + " with message: " + msg);
+			
+			return new Tracepoint(name, timeStamp, msg);
+		} else {
+			int timeStamp = Integer.parseInt(splitLine[1]);
+			String name = splitLine[2];
+			String msg = (splitLine.length == 4)? splitLine[3] : null;
+			
+			//System.out.println(name + " at " + timeStamp + " with message: " + msg);
+			
+			return new Tracepoint(name, timeStamp, msg);
+		}
 	}
 }

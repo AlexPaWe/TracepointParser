@@ -41,14 +41,17 @@ public class Main {
 							Parser parser = new Parser();
 							List<Tracepoint> tracepoints = parser.parse(contents);
 						
-							int iterationNr = 1; // TODO: Nake this non static
+							int iterationNr = 1; // TODO: Make this non static
 							Task task = new Task(taskFolder.getName(), iterationNr, tracepoints);
 						
 							tasks = new LinkedList<Task>();
 							tasks.add(task);
-						
-							System.out.println("Nr. of \"trace_yield\"s: " + task.getNumberOf("trace_yield"));
-						
+							
+							System.out.println("Number of \"trace_yield\"s: " + task.getNumberOf("trace_yield"));
+							System.out.println("Number of \"trace_thread_switch\"'s: " + task.getNumberOf("trace_thread_switch"));
+							
+							System.out.println("-----------------------------------------\n" +
+											   "Number of total tracepoints: " + task.getTracepoints().size());
 						} catch (FileNotFoundException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
