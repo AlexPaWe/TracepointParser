@@ -2,6 +2,7 @@ package de.alexpawe.tracepointparser;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
@@ -52,6 +53,28 @@ public class Main {
 							
 							System.out.println("-----------------------------------------\n" +
 											   "Number of total tracepoints: " + task.getTracepoints().size());
+						
+							//Create table and export as csv
+							//Create header
+							String tablestring = "Iteration,No_total_tps,No_yields,No_thread_switches\n";
+							//fill table
+							for (Task cTask : tasks) {
+								tablestring = tablestring + cTask.getIterationNr() +
+													  "," + cTask.getTracepoints().size() +
+													  "," + cTask.getNumberOf("trace_yield") +
+													  "," + cTask.getNumberOf("trace_thread_switch") + "\n";
+							}
+							
+							// Write tablestring to csv file
+							File csvFile = new File(taskFolder.toString() + "/tp.csv");
+							try (PrintWriter writer = new PrintWriter(csvFile)) {
+								writer.write(tablestring);
+								writer.close();
+							} catch (FileNotFoundException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
 						} catch (FileNotFoundException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

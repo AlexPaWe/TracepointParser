@@ -33,4 +33,8 @@ public class Task {
 	public String getTaskID() {
 		return taskID;
 	}
+	
+	public int getIterationNr() {
+		return iterationNr;
+	}
 }
