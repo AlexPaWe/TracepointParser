@@ -15,7 +15,7 @@ public class Parser {
 			String line = iterator.next();
 			
 			// Search for the separator line where the table of tracepoints with timestamps starts.
-			while (!line.matches("[-]+[\s]+[-]+[\s]+[-]+")) {
+			while (!(line.matches("[-]+[\s]+[-]+") || line.matches("[-]+[\s]+[-]+[\s]+[-]+"))) {
 				line = iterator.next();
 			}
 			

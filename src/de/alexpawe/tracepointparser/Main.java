@@ -14,14 +14,12 @@ import de.alexpawe.tracepointparser.things.Tracepoint;
 
 public class Main {
 	
-	public static final String TRACES_LIST_FILE_NAME = "traces.dat_list.txt";
-	
 	private static List<Task> tasks;
 
 
 	public static void main(String[] args) {
 		
-		// TODO: Import tracepoints from traces.dat file(s)
+		// TODO: Import tracepoints from traces.txt file(s)
 		File resultsDirectory = Paths.get("results").toFile();
 		File[] resultsFolders = resultsDirectory.listFiles();
 		for (File taskFolder : resultsFolders) {
@@ -30,7 +28,13 @@ public class Main {
 			if (taskFiles != null) {
 				for (File taskFile : taskFiles) {
 					System.out.println(taskFile.getName());
-					if (taskFile.getName().equals(TRACES_LIST_FILE_NAME)) {
+					if (taskFile.getName().matches("traces[0-9]+.txt")) {
+						
+						// Get iteration number from filename
+						String tmp = taskFile.getName().replace("traces", "");
+						tmp = tmp.replace(".txt", "");
+						int iterationNr = Integer.parseInt(tmp);
+						
 						System.out.println("Traces list file found.");
 						try {
 							Scanner fileScanner = new Scanner(taskFile);
@@ -42,7 +46,6 @@ public class Main {
 							Parser parser = new Parser();
 							List<Tracepoint> tracepoints = parser.parse(contents);
 						
-							int iterationNr = 1; // TODO: Make this non static
 							Task task = new Task(taskFolder.getName(), iterationNr, tracepoints);
 						
 							tasks = new LinkedList<Task>();
@@ -66,7 +69,7 @@ public class Main {
 							}
 							
 							// Write tablestring to csv file
-							File csvFile = new File(taskFolder.toString() + "/tp.csv");
+							File csvFile = new File(taskFolder.toString() + "/traces" + iterationNr + ".csv");
 							try (PrintWriter writer = new PrintWriter(csvFile)) {
 								writer.write(tablestring);
 								writer.close();
