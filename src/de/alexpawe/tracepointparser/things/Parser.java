@@ -27,11 +27,13 @@ public class Parser {
 	}
 	
 	private Tracepoint parseLine(String line) {						// Example tracepoint line: 0000000000000000 trace_vfs_dup3: 0 1 0x0
-		if (line.matches("[a-z][a-z_0-9]*") || line.equals("")) {	// Other lines are either "name [0-9]+" or empty
+		if (line.matches("[a-z][a-z_0-9]* [0-9]") || line.equals("")) {	// Other lines are either "name [0-9]+" or empty
 			return null;
 		}
 		String[] fsplitLine = line.split(": ");
+		System.out.println(fsplitLine[0]);	// TODO: Remove
 		String[] ssplitLine = fsplitLine[0].split(" ");
+		System.out.println(fsplitLine[1]);
 		int timeStamp = Integer.parseInt(ssplitLine[0]);
 		String name   = ssplitLine[1];
 		String msg    = fsplitLine[1];
