@@ -23,11 +23,9 @@ public class Main {
 		File resultsDirectory = Paths.get("results").toFile();
 		File[] resultsFolders = resultsDirectory.listFiles();
 		for (File taskFolder : resultsFolders) {
-			System.out.println(taskFolder.getName());
 			File[] taskFiles = taskFolder.listFiles();
 			if (taskFiles != null) {
 				for (File taskFile : taskFiles) {
-					System.out.println(taskFile.getName());
 					if (taskFile.getName().matches("traces[0-9]+.txt")) {
 						
 						// Get iteration number from filename
@@ -35,7 +33,6 @@ public class Main {
 						tmp = tmp.replace(".txt", "");
 						int iterationNr = Integer.parseInt(tmp);
 						
-						System.out.println("Traces list file found.");
 						try {
 							Scanner fileScanner = new Scanner(taskFile);
 							List contents = new LinkedList();

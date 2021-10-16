@@ -31,9 +31,7 @@ public class Parser {
 			return null;
 		}
 		String[] fsplitLine = line.split(": ");
-		System.out.println(fsplitLine[0]);	// TODO: Remove
 		String[] ssplitLine = fsplitLine[0].split(" ");
-		System.out.println(fsplitLine[1]);
 		int timeStamp = Integer.parseInt(ssplitLine[0]);
 		String name   = ssplitLine[1];
 		String msg    = fsplitLine[1];
