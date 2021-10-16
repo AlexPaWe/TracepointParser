@@ -12,42 +12,30 @@ public class Parser {
 		List<Tracepoint> tracepoints = new LinkedList<Tracepoint>();
 		
 		Iterator<String> iterator = fileContents.iterator();
-			String line = iterator.next();
-			
-			// Search for the separator line where the table of tracepoints with timestamps starts.
-			while (!(line.matches("[-]+[\s]+[-]+") || line.matches("[-]+[\s]+[-]+[\s]+[-]+"))) {
-				line = iterator.next();
-			}
+		String line = iterator.next();
 			
 		while (iterator.hasNext()) {
 			line = iterator.next();
 			
 			Tracepoint tracepoint = parseLine(line);
 			
-			tracepoints.add(tracepoint);
+			if (tracepoint != null) {
+				tracepoints.add(tracepoint);
+			}
 		}
-		
 		return tracepoints;
 	}
 	
-	private Tracepoint parseLine(String line) {
-		String[] splitLine = line.split("\s[\s]+");
-		if (splitLine[0].matches("[0-9]+")) {
-			int timeStamp = Integer.parseInt(splitLine[0]);
-			String name = splitLine[1];
-			String msg = (splitLine.length == 3)? splitLine[2] : null;
-			
-			//System.out.println(name + " at " + timeStamp + " with message: " + msg);
-			
-			return new Tracepoint(name, timeStamp, msg);
-		} else {
-			int timeStamp = Integer.parseInt(splitLine[1]);
-			String name = splitLine[2];
-			String msg = (splitLine.length == 4)? splitLine[3] : null;
-			
-			//System.out.println(name + " at " + timeStamp + " with message: " + msg);
-			
-			return new Tracepoint(name, timeStamp, msg);
+	private Tracepoint parseLine(String line) {						// Example tracepoint line: 0000000000000000 trace_vfs_dup3: 0 1 0x0
+		if (line.matches("[a-z][a-z_0-9]*") || line.equals("")) {	// Other lines are either "name [0-9]+" or empty
+			return null;
 		}
+		String[] fsplitLine = line.split(": ");
+		String[] ssplitLine = fsplitLine[0].split(" ");
+		int timeStamp = Integer.parseInt(ssplitLine[0]);
+		String name   = ssplitLine[1];
+		String msg    = fsplitLine[1];
+		
+		return new Tracepoint(name, timeStamp, msg);
 	}
 }
