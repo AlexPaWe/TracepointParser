@@ -3,11 +3,11 @@ package de.alexpawe.tracepointparser.things;
 public class Tracepoint {
 
 	private String name;
-	private int timestamp;
+	private long timestamp;
 	private String msg;
 	
 	
-	public Tracepoint(String name, int timestamp, String msg) {
+	public Tracepoint(String name, long timestamp, String msg) {
 		this.name = name;
 		this.timestamp = timestamp;
 		this.msg = msg;
@@ -17,7 +17,7 @@ public class Tracepoint {
 		return name;
 	}
 	
-	public int getTimeStamp() {
+	public long getTimeStamp() {
 		return timestamp;
 	}
 	

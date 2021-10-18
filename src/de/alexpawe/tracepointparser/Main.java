@@ -56,13 +56,18 @@ public class Main {
 						
 							//Create table and export as csv
 							//Create header
-							String tablestring = "Iteration,No_total_tps,No_yields,No_thread_switches\n";
+							String tablestring = "Iteration,No_total_tps,No_yields,No_thread_switches,Min_syscall_time,Max_syscall_time,Avg_syscall_time,Total_syscall_time,Number_of_syscalls\n";
 							//fill table
 							for (Task cTask : tasks) {
 								tablestring = tablestring + cTask.getIterationNr() +
 													  "," + cTask.getTracepoints().size() +
 													  "," + cTask.getNumberOf("trace_yield") +
-													  "," + cTask.getNumberOf("trace_thread_switch") + "\n";
+													  "," + cTask.getNumberOf("trace_thread_switch") +
+													  "," + cTask.getMinSyscallTime() +
+													  "," + cTask.getMaxSyscallTime() +
+													  "," + cTask.getAvgSyscallTime() + 
+													  "," + cTask.getTotalSyscallTime() +
+													  "," + cTask.getNoSyscalls() + "\n";
 							}
 							
 							// Write tablestring to csv file

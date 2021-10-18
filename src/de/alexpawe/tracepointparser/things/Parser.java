@@ -32,10 +32,12 @@ public class Parser {
 		}
 		String[] fsplitLine = line.split(": ");
 		String[] ssplitLine = fsplitLine[0].split(" ");
-		int timeStamp = Integer.parseInt(ssplitLine[0]);
+		long timeStamp = Long.parseLong(ssplitLine[0]);
 		String name   = ssplitLine[1];
-		String msg    = fsplitLine[1];
-		
+		String msg = null;
+		if (fsplitLine.length >= 2) {
+			msg = fsplitLine[1];
+		}
 		return new Tracepoint(name, timeStamp, msg);
 	}
 }
