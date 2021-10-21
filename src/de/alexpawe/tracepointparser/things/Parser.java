@@ -12,15 +12,16 @@ public class Parser {
 		List<Tracepoint> tracepoints = new LinkedList<Tracepoint>();
 		
 		Iterator<String> iterator = fileContents.iterator();
-		String line = iterator.next();
-			
-		while (iterator.hasNext()) {
-			line = iterator.next();
-			
-			Tracepoint tracepoint = parseLine(line);
-			
-			if (tracepoint != null) {
-				tracepoints.add(tracepoint);
+		if (iterator.hasNext()) {
+			String line = iterator.next();
+			while (iterator.hasNext()) {
+				line = iterator.next();
+				
+				Tracepoint tracepoint = parseLine(line);
+				
+				if (tracepoint != null) {
+					tracepoints.add(tracepoint);
+				}
 			}
 		}
 		return tracepoints;
